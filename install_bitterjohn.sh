@@ -3,6 +3,7 @@
 enable_bbr() {
   sed -i '/net.ipv4.tcp_congestion_control=/d' /etc/sysctl.conf
   echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+  sysctl -p --system
 }
 
 download_and_install() {
