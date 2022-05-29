@@ -24,25 +24,10 @@ download_and_install() {
   x86_64)
     ARCH="x64"
     ;;
-  armv5*)
+  armv5*|armv6*|armv7*|arm)
     ARCH="arm"
     ;;
-  armv6*)
-    ARCH="arm"
-    ;;
-  armv7*)
-    ARCH="arm"
-    ;;
-  arm)
-    ARCH="arm"
-    ;;
-  armv8*)
-    ARCH="arm64"
-    ;;
-  arm64)
-    ARCH="arm64"
-    ;;
-  aarch64*)
+  armv8*|arm64|aarch64*)
     ARCH="arm64"
     ;;
   *)
