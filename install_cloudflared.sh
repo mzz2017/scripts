@@ -46,7 +46,7 @@ RestartSec=5s
 [Install]
 WantedBy=multi-user.target
 EOF
-  mkdir /etc/cloudflared
+  mkdir -p /etc/cloudflared
   if [ ! -z "$1" ]; then
     echo "Please input the content of the credentials-file as /etc/cloudflared/$1.json (ctrl-d when done):"
     cat > /etc/cloudflared/%i.json
