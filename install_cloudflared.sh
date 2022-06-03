@@ -58,6 +58,14 @@ login() {
   cloudflared login
 }
 
+ban_http() {
+  iptables -A INPUT -p tcp -m tcp --dport 80 -j REJECT
+  cat > /etc/rc3.d/S01cloudflared-script-ban-http << 'EOF'
+#!/bin/bash
+iptables -A INPUT -p tcp -m tcp --dport 80 -j REJECT
+EOF
+}
+
 hello() {
   if [ -z "$1" ]; then
     echo "Please put your credentials-file as /etc/cloudflared/<tunnel_id>.json and start your argotunnel by systemctl enable --now cloudflared@<tunnel_id>"
@@ -69,4 +77,5 @@ hello() {
 set -e
 download_and_install $1
 login
+ban_http
 hello $1
