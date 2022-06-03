@@ -59,11 +59,23 @@ login() {
 }
 
 ban_http() {
-  iptables -A INPUT -p tcp -m tcp -m addrtype ! --src-type LOCAL --dport 80 -j REJECT
-  cat > /etc/rc3.d/S01cloudflared-script-ban-http << 'EOF'
+  cat > /etc/cloudflared/ban_http.sh << 'EOF'
 #!/bin/bash
 iptables -A INPUT -p tcp -m tcp -m addrtype ! --src-type LOCAL --dport 80 -j REJECT
 EOF
+  chmod +x /etc/cloudflared/ban_http.sh
+  cat > /etc/systemd/system/cloudflared-script-ban-http.service << 'EOF'
+[Unit]
+Description=Block inbound traffic on port 80
+
+[Service]
+Type=oneshot
+ExecStart=/etc/cloudflared/ban_http.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF
+  systemctl enable --now cloudflared-script-ban-http.service
 }
 
 hello() {
