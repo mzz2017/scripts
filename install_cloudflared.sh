@@ -82,7 +82,7 @@ hello() {
   if [ -z "$1" ]; then
     echo "Please put your credentials-file as /etc/cloudflared/<tunnel_id>.json and start your argotunnel by systemctl enable --now cloudflared@<tunnel_id>"
   else
-    echo "systemctl enable --now cloudflared@""$1"
+    echo "You can start argotunnel use: systemctl enable --now cloudflared@""$1"
   fi
 }
 
