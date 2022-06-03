@@ -65,7 +65,7 @@ hello() {
   fi
 }
 
-set -ex
+set -e
 download_and_install $1
 login
 hello $1
