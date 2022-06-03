@@ -31,7 +31,6 @@ download_and_install() {
   esac
 
   wget -O /usr/local/bin/cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-"$PLATFORM"-"$ARCH"
-  mkdir /etc/cloudflared
   cat > /etc/systemd/system/cloudflared@.service << 'EOF'
 [Unit]
 Description=cloudflared %i
@@ -47,12 +46,26 @@ RestartSec=5s
 [Install]
 WantedBy=multi-user.target
 EOF
+  mkdir /etc/cloudflared
+  if [ ! -z "$1" ]; then
+    echo "Please input the content of the credentials-file as /etc/cloudflared/$1.json (ctrl-d when done):"
+    cat > /etc/cloudflared/%i.json
+  fi
 }
 
 login() {
   cloudflared login
 }
 
+hello() {
+  if [ -z "$1" ]; then
+    echo "Please put your credentials-file as /etc/cloudflared/<tunnel_id>.json and start your argotunnel by systemctl enable --now cloudflared@<tunnel_id>"
+  else
+    echo "systemctl enable --now cloudflared@""$1"
+  fi
+}
+
 set -ex
-download_and_install
+download_and_install $1
 login
+hello $1
