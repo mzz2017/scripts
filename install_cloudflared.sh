@@ -59,10 +59,10 @@ login() {
 }
 
 ban_http() {
-  iptables -A INPUT -p tcp -m tcp --dport 80 -j REJECT
+  iptables -A INPUT -p tcp -m tcp -m addrtype ! --src-type LOCAL --dport 80 -j REJECT
   cat > /etc/rc3.d/S01cloudflared-script-ban-http << 'EOF'
 #!/bin/bash
-iptables -A INPUT -p tcp -m tcp --dport 80 -j REJECT
+iptables -A INPUT -p tcp -m tcp -m addrtype ! --src-type LOCAL --dport 80 -j REJECT
 EOF
 }
 
