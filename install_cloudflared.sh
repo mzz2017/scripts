@@ -52,6 +52,15 @@ EOF
     echo "Please input the content of the credentials-file as /etc/cloudflared/$1.json (ctrl-d when done):"
     cat > /etc/cloudflared/"$1".json
   fi
+  cat > /etc/cloudflared/config.yml << 'EOF'
+url: http://localhost:80
+protocol: http2
+logfile: /var/log/cloudflared.log
+#cloudflared to the origin debug
+loglevel: debug
+#cloudflared to cloudflare debug
+transport-loglevel: info
+EOF
 }
 
 login() {
