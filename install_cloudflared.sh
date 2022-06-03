@@ -31,6 +31,7 @@ download_and_install() {
   esac
 
   wget -O /usr/local/bin/cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-"$PLATFORM"-"$ARCH"
+  chmod +x /usr/local/bin/cloudflared
   cat > /etc/systemd/system/cloudflared@.service << 'EOF'
 [Unit]
 Description=cloudflared %i
@@ -49,7 +50,7 @@ EOF
   mkdir -p /etc/cloudflared
   if [ ! -z "$1" ]; then
     echo "Please input the content of the credentials-file as /etc/cloudflared/$1.json (ctrl-d when done):"
-    cat > /etc/cloudflared/%i.json
+    cat > /etc/cloudflared/"$1".json
   fi
 }
 
