@@ -48,7 +48,7 @@ download_and_install() {
   else
     version=$1
   fi
-  curl -L "https://github.com/e14914c0-6759-480d-be89-66b7b7676451/BitterJohn/releases/latest/download/BitterJohn_${PLATFORM}_${ARCH}_${version:1}" -o "${temp_file}"
+  curl -L "https://github.com/e14914c0-6759-480d-be89-66b7b7676451/BitterJohn/releases/download/${version}/BitterJohn_${PLATFORM}_${ARCH}_${version:1}" -o "${temp_file}"
   chmod +x "${temp_file}"
   "${temp_file}" install -g
   systemctl enable --now BitterJohn.service
