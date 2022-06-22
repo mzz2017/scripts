@@ -51,7 +51,15 @@ download_and_install() {
   curl -L "https://github.com/e14914c0-6759-480d-be89-66b7b7676451/BitterJohn/releases/download/${version}/BitterJohn_${PLATFORM}_${ARCH}_${version:1}" -o "${temp_file}"
   chmod +x "${temp_file}"
   "${temp_file}" install -g
-  systemctl enable --now BitterJohn.service
+  
+  mv /usr/lib/systemd/system/BitterJohn.service /usr/lib/systemd/system/john.service
+  sed -i s/BitterJohn/john/g /usr/lib/systemd/system/john.service
+  mv /etc/BitterJohn/BitterJohn.json /etc/BitterJohn/john.json
+  mv /etc/BitterJohn /etc/john
+  mv /usr/bin/BitterJohn /usr/bin/john
+  
+  systemctl daemon-reload
+  systemctl enable --now john.service
 }
 
 enable_bbr
