@@ -1,12 +1,15 @@
 #!/bin/bash
 
 enable_bbr() {
-  sed -i '/net.core.default_qdisc=/d' /etc/sysctl.conf
-  echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
-  sysctl net.core.default_qdisc=fq
+  mkdir /etc/sysctl.d
 
+  sed -i '/net.core.default_qdisc=/d' /etc/sysctl.conf
   sed -i '/net.ipv4.tcp_congestion_control=/d' /etc/sysctl.conf
-  echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+
+  echo "net.core.default_qdisc=fq" > /etc/sysctl.d/99-bbr.conf
+  echo "net.ipv4.tcp_congestion_control=bbr" > /etc/sysctl.d/99-bbr.conf
+
+  sysctl net.core.default_qdisc=fq
   sysctl net.ipv4.tcp_congestion_control=bbr
 }
 
